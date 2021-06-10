@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Ivy sun </title>
+    <link href="styles/search.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <script src="scripts/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="div-body">
+        <div id="nav-background">
+            <div id="nav-container">
+                <header id="nav-header">
+                    <h1><a class="nav-logo-function" href="index.html#home" id="nav-logo">
+
+                            Ivy
+                        </a></h1>
+                    <img src="https://i.imgur.com/xcFvxAK.png" class="hamburger-img" id="nav-menu-button">
+                </header>
+                <nav>
+                    <ul class="nav-ul hide-ul">
+                        <li><a class="nav-link" href="index.html#about">About Us</a></li>
+                        <li><a class="nav-link" href="index.html#contact">Contact</a></li>
+                        <li><a class="nav-link" href="search.html">Search</a></li>
+
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <script src="scripts/nav.js"></script>
+        <div class="page">
+            <div class="left">
+            </div>
+            <div class="right">
+                <div class="row " id="allProducts">
+                    <!-- <div class="col">
+                        <div class="product-container">
+                            <div class="wrap">
+                                <img class="product-img" onclick="on()" src="https://i.imgur.com/cSkHktj.jpg">
+                                <div class="hide" id="overlay" onclick="off()">
+                                    <h3> Rimel cu aroma tropicala </h3>
+                                    <h5> Descriere : </h5>
+                                    <p> acjdkj </p>
+                                </div>
+                            </div>
+                            <div class="details"> Rimel </div>
+                            <div class="tags">
+                                <div class="tag">
+                                    oily
+                                </div>
+
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+
+
+        <footer class="footer-reference">
+            <br>
+            <p>Authors: Coteanu Andra & Hrib Ecaterina & Marele Carina </p>
+            <p> <a href="doc.html"> Scholarly HTML Documentation </a></p>
+        </footer>
+
+        <script>
+            var products = [];
+            $.ajax({
+                url: '/getProducts',
+                type: 'GET',
+                success: function (data) {
+                    products = data.products;
+                    products.forEach(val => {
+                        $("#allProducts").append(`
+                        <div class="col" id="${val._id}">
+                        <div class="product-container">
+                            <div class="wrap">
+                                <img class="product-img" onclick="on()" src="${val.image_path}">
+                                <div class="hide" id="overlay" onclick="off()">
+                                    <h3>${val.name}</h3>
+                                    <h5> Descriere : </h5>
+                                    <p> ${val.descriere} </p>
+                                </div>
+                            </div>
+                            <div class="details"> ${val.descriere}  </div>
+                            <div class="tags">
+                                <div class="tag">
+                                    ${val.type}
+                                </div>
+                                <button class="deleteProduct" onclick="deleteP('${val._id}')">Delete</button>
+
+                            </div>
+                        </div>
+                    </div>
+                        `);
+                    });
+                }
+            });
+
+
+            function deleteP(id) {
+                
+                $.ajax({
+                    url: '/deletep',
+                    type: 'POST',
+                    data: {id: id},
+                    success: function (data) {
+                        $('#'+id).remove();
+                    }
+                });
+            }
+        </script>
+</body>
+
+</html>
